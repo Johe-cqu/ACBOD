@@ -190,7 +190,7 @@ public class CsiDataStruct {
         for (int i =0;
                 (abnormalNum<abnormalSumNum)&&(i<ofSort.size());
                             abnormalNum+=arr.get(of.indexOf(ofSort.get(i++)))){//找到异常簇
-            if(arr.get(of.indexOf(ofSort.get(i)))>abnormalSumNum*5){
+            if(arr.get(of.indexOf(ofSort.get(i)))>abnormalSumNum*3){
                 break;
             }
               findCsiNode(of.indexOf(ofSort.get(i))).csiData.setAbnormalSign(true);//将异常簇置位
