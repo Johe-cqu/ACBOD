@@ -3,6 +3,7 @@ package edu.buaa;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 //数据集     作为整个聚类分析中将被使用的数据集
 public class DataSet {
@@ -10,6 +11,8 @@ public class DataSet {
     private int size;//链表长度
     private float distanceEx;//数据集对象间的平均距离          只在抽样数据集中有效
     private float distanceDx;//数据集对象间的平均距离的标准差  只在抽样数据集中有效
+  //  private HashMap<Integer,CellData> dataSetHashMap;
+
     private class Node{  //私有类 结点
         private CellData data;
         private int cellDataId;    //对象标识符
@@ -31,6 +34,7 @@ public class DataSet {
         head=null;
         size=0;
     }
+
 
     public DataSet(int id,CellData element){
         this();
