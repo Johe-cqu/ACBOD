@@ -326,15 +326,20 @@ public class CsiDataStruct {
     public ArrayList<Integer> getAbnormalDataId(DataSet dataSet,float r,float ratio){
         ArrayList<Integer> idArrayList =new ArrayList<Integer>();
         DataSet tempDataSet=dataSet.cloneDataSet();
+        /*
         for (;!tempDataSet.isNullHead();tempDataSet.nextNode()){
             this.putPointToCluster(tempDataSet.readHeadNodeId(),tempDataSet.readHeadNodeData(),r);
+        }
+        */
+        for(int id: tempDataSet.getDataSetHashMap().keySet()){
+            this.putPointToCluster(id,tempDataSet.getDataSetHashMap().get(id),r);
         }
         this.setDetaCAll(dataSet.cloneDataSet());//计算簇内所有CsiData的簇内距离DetaC
         this.setDaviesBouldin();//设置簇内的DB指数
         this.calculateOF();
         this.setR(r);//设置r
 
-        this.setCsiDataAbNormal(ratio);
+        this.setCsiDataAbNormal(ratio);//判断异常簇
         for (CsiNode tempNode = this.csiClusterHead;tempNode!=null;tempNode=tempNode.next){
             if (tempNode.csiData.getAbnomalSign()){
                 CsiData tempCsiData = tempNode.csiData.cloneCsiData();

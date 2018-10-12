@@ -34,6 +34,7 @@ public class CsiDataTest {
 
         //读取DataSet中的数据，添加进入CsiData之中
         CsiData abbCsi = new CsiData();
+      /*
         for(;!cbbData.isNullHead();cbbData.nextNode()){
             //CsiData abbCsi = new CsiData(cbbData.readHeadNodeId(),cbbData.readHeadNodeData());
             abbCsi.addOneData(cbbData.readHeadNodeId(),cbbData.readHeadNodeData());
@@ -45,6 +46,20 @@ public class CsiDataTest {
             }
             System.out.println();
         }
+*/
+        for(int id:cbbData.getDataSetHashMap().keySet()){
+            //CsiData abbCsi = new CsiData(cbbData.readHeadNodeId(),cbbData.readHeadNodeData());
+            abbCsi.addOneData(id,cbbData.getDataSetHashMap().get(id));
+            System.out.println(id);
+            float[] tempfloat = cbbData.getDataSetHashMap().get(id).getData();
+            for (int i = 0; i < cbbData.getDataSetHashMap().get(id).getLen(); i++) {
+                System.out.print(tempfloat[i]);//显示链表内各个数字
+                System.out.print("  ");
+            }
+            System.out.println();
+        }
+
+
         System.out.println();
 
         //从原始数据集中读取原始数据

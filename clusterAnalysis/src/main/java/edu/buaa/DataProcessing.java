@@ -54,7 +54,7 @@ public class DataProcessing {
     public static void getAbnormalDataInDataSetForward(@NotNull DataSet dataSet, float DataSetRatio, float abnormalDataRatio){
         DataSet dataSetClone = new DataSet();
        // DataSet dataSetClone = dataSet.cloneDataSet();
-        dataSetClone.copyToNewDataSet(dataSet);
+        dataSetClone=dataSet.cloneDataSet();
         dataSetClone.normalizationDataSet();//数据集数据标准化
         DataSet samplingDataSet = new DataSet();
         samplingDataSet.copyToNewDataSet(dataSetClone.SystematicSampling(DataSetRatio));// 对进行数据集采样得到采样数据集（反向）   将反向采样数据集进行反向，得到正向采样数据集

@@ -37,6 +37,7 @@ public class DataSetTest {
 
         System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
         DataSet cbbData=new DataSet();
+        /*
         for(cbbData.copyDataSet(abbData);!cbbData.isNullHead();cbbData.nextNode()){
             System.out.println(cbbData.readHeadNodeId());
             float[] tempfloat = cbbData.readHeadNodeData().getData();
@@ -46,7 +47,7 @@ public class DataSetTest {
             }
             System.out.println();
         }
-
+        */
         DataSet temp=new DataSet();
         temp.copyToNewDataSet(abbData);
 

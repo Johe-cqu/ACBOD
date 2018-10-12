@@ -61,8 +61,11 @@ public class CsiDataStructStruct {
         try {
             float r = dataSet.getR(beta);
             this.addCsiDataStruct(new CsiDataStruct());//先创建一个CsiDataStruct
-            for(;!tempDataSet.isNullHead();tempDataSet.nextNode()){  //每个点均放入Struct中
+           /* for(;!tempDataSet.isNullHead();tempDataSet.nextNode()){  //每个点均放入Struct中
                 this.csiDataStructHead.csiDataStruct.putPointToCluster(tempDataSet.readHeadNodeId(),tempDataSet.readHeadNodeData(),r);
+            }*/
+            for(int id: tempDataSet.getDataSetHashMap().keySet()){  //每个点均放入Struct中
+                this.csiDataStructHead.csiDataStruct.putPointToCluster(id,tempDataSet.getDataSetHashMap().get(id),r);
             }
             this.csiDataStructHead.csiDataStruct.setDetaCAll(dataSet.cloneDataSet());//计算簇内所有CsiData的簇内距离DetaC
             this.csiDataStructHead.csiDataStruct.setDaviesBouldin();//设置簇内的DB指数

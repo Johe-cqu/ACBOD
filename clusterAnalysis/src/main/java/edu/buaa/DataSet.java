@@ -7,12 +7,12 @@ import java.util.HashMap;
 
 //数据集     作为整个聚类分析中将被使用的数据集
 public class DataSet {
-    private Node head;//头结点
-    private int size;//链表长度
+  /*  private Node head;//头结点*/
+ /*   private int size;//链表长度  */
     private float distanceEx;//数据集对象间的平均距离          只在抽样数据集中有效
     private float distanceDx;//数据集对象间的平均距离的标准差  只在抽样数据集中有效
-  //  private HashMap<Integer,CellData> dataSetHashMap;
-
+    private HashMap<Integer,CellData> dataSetHashMap;
+/*
     private class Node{  //私有类 结点
         private CellData data;
         private int cellDataId;    //对象标识符
@@ -28,29 +28,55 @@ public class DataSet {
             this.next = null;
         }
     }
+*/
 
+/*
     //数据集初始化
     public DataSet(){
         head=null;
         size=0;
     }
+  */
 
+    //数据集初始化
+    public DataSet(){
+        this.dataSetHashMap = new HashMap<Integer,CellData>();
+    }
 
+/*
     public DataSet(int id,CellData element){
         this();
         this.addNodeInHead(id,element);
     }
+    */
+    public DataSet(int id,CellData element){
+        this();
+        this.dataSetHashMap.put(id,element);
+    }
 
+/*
     //数据集是否为空
     public boolean isEmpty(){
         return size==0;
     }
+*/
+    //数据集是否为空
+    public boolean isEmpty(){
+        return this.dataSetHashMap.size()==0;
+    }
 
+/*
     //返回数据集数据量的多少
     public int getSize(){
         return size;
     }
+*/
+    //返回数据集数据量的多少
+    public int getSize(){
+        return this.dataSetHashMap.size();
+    }
 
+    /*
     //在链表的最前端加上一个元素      添加的是一个CellData元素   需要将float数组进行包装
     public void addNodeInHead(int id,CellData element){
         Node tempNode=head;
@@ -58,7 +84,13 @@ public class DataSet {
         head.next=tempNode;
         size++;
     }
+    */
+    //在HashMap中添加一个节点
+    public void addNodeInHead(int id,CellData element){
+       this.dataSetHashMap.put(id,element);
+    }
 
+/*
     //重写方法：  在链表的前端加上一个元素
     public void addNodeInHead(Node addNode){
         Node temp=head;
@@ -66,7 +98,9 @@ public class DataSet {
         head.next=temp;
         size++;
     }
+*/
 
+    /*
     //求取数据集的平均值      注意：单独使用之前一定要检查数据集是否为空！！！！
     private float[] getAveage() throws Exception{
         float[] aveagefloat=new float[head.data.getLen()];
@@ -87,7 +121,34 @@ public class DataSet {
         }
         return aveagefloat;
     }
+*/
+    //求取数据集的平均值      注意：单独使用之前一定要检查数据集是否为空！！！！
+    private float[] getAveage() throws Exception{
+        int floatNum=0;
+        for (int id:this.dataSetHashMap.keySet()){  //找到浮点数数组的长度
+            floatNum = this.dataSetHashMap.get(id).getLen();
+            break;
+        }
+        float[] aveagefloat=new float[floatNum];  //需要更改
+        //System.out.println(aveagefloat[head.data.getLen()-1]);
+        if (this.dataSetHashMap.size()==0){
+            //System.out.println("Error,DataSet is empty!");
+            throw new Exception("Error,DataSet is empty! Aveage is inexistence!");
+        }else {
+            for (CellData cellData:this.dataSetHashMap.values()){
+                float[] tempfloat=cellData.getData();
+                for (int i=0;i<floatNum;i++){
+                    aveagefloat[i]+=tempfloat[i];
+                }
+            }
 
+            for (int i=0;i<floatNum;i++){
+                aveagefloat[i]/=this.dataSetHashMap.size();
+            }
+        }
+        return aveagefloat;
+    }
+/*
     //求数据集的标准差   输入变量：数据集的平均值    注意：单独使用之前一定要检查数据集是否为空！！！！
     private float[] getStandardDev ( float[] aveagefloat) throws Exception{
         float[] devfloat = new float[head.data.getLen()];
@@ -108,7 +169,35 @@ public class DataSet {
         }
         return devfloat;
     }
+*/
+    //求数据集的标准差   输入变量：数据集的平均值    注意：单独使用之前一定要检查数据集是否为空！！！！
+    private float[] getStandardDev ( float[] aveagefloat) throws Exception{
+        int floatNum=0;
+        for (int id:this.dataSetHashMap.keySet()){  //找到浮点数数组的长度
+            floatNum = this.dataSetHashMap.get(id).getLen();
+            break;
+        }
+        float[] devfloat = new float[floatNum];  //需要更改
+        if (this.dataSetHashMap.size() == 0) {
+            //System.out.println("Error,DataSet is empty!");
+            throw new Exception("Error,DataSet is empty! Strandard Dev is inexistence!");
+        } else {
+            for (CellData cellData:this.dataSetHashMap.values()) {
+                float[] tempfloat = cellData.getData();
+                for (int i = 0; i < floatNum; i++) {
+                    devfloat[i] += Math.pow((tempfloat[i]-aveagefloat[i]),2);
+                }
+            }
+            for (int i=0;i<floatNum;i++) {
+                devfloat[i] /= (this.dataSetHashMap.size() - 1);
+                devfloat[i] = (float) Math.sqrt(devfloat[i]);
+            }
+        }
+        return devfloat;
+    }
 
+
+/*
     //对数据集进行标准化    注意：调用之前一定要检查数据集是否为空！！！！
     public void normalizationDataSet(){
         try{
@@ -126,7 +215,27 @@ public class DataSet {
             e.printStackTrace();
         }
     }
+*/
 
+    //对数据集进行标准化    注意：调用之前一定要检查数据集是否为空！！！！
+    public void normalizationDataSet(){
+        try{
+            float[] aveagefloat=this.getAveage();
+            float[] devfloat=this.getStandardDev(aveagefloat);
+            for (CellData cellData:this.dataSetHashMap.values()) {
+                float[] tempfloat = cellData.getData();
+                for (int i = 0; i < cellData.getLen(); i++) {
+                    cellData.setData((tempfloat[i]-aveagefloat[i])/devfloat[i],i);
+                }
+            }
+        }
+        catch (Exception e) {
+            System.out.println("Error,DataSet is empty!");
+            e.printStackTrace();
+        }
+    }
+
+   /*
     //打印出链表中所有元素
     public void printDataSet(){
         System.out.println(size);//显示链表长度
@@ -140,18 +249,45 @@ public class DataSet {
             System.out.println();
         }
     }
+    */
 
+    //打印出hashMap中所有元素
+    public void printDataSet(){
+        System.out.println(this.dataSetHashMap.size());//显示hashMap长度
+        for (int id: this.dataSetHashMap.keySet()) {
+            System.out.println(id);
+            float[] tempfloat = this.dataSetHashMap.get(id).getData();
+            for (int i = 0; i < this.dataSetHashMap.get(id).getLen(); i++) {
+                System.out.print(tempfloat[i]);//显示链表内各个数字
+                System.out.print("  ");
+            }
+            System.out.println();
+        }
+    }
+
+    /*
     //返回某个数据节点的对象标识符
     public int getCellDataId(Node note){
         return note.cellDataId;
     }
+*/
 
+    /*
     //copy一个数据集，本质上数据集的各个元素并没有被重新创建，只是copy了数据集的起始位置   浅克隆
     public void copyDataSet(DataSet oldDataSet){
         this.head=oldDataSet.head;
         this.size=oldDataSet.size;
     }
+    */
 
+    //copy一个数据集，本质上数据集的各个元素并没有被重新创建，只是copy了数据集的起始位置   浅克隆
+    public void copyDataSet(DataSet oldDataSet){
+        this.dataSetHashMap=oldDataSet.dataSetHashMap;
+        this.distanceDx=oldDataSet.distanceDx;
+        this.distanceEx=oldDataSet.distanceEx;
+    }
+
+    /*
     //copy一个数据集，此数据集是重新建立的新数据集    此方法的缺点是需要建立新的数据集时会出现链表的顺序相反的情况（先后顺序逆转）   深克隆
     public void copyToNewDataSet(DataSet oldDataSet){
         DataSet temp =new DataSet();    //浅克隆是有必要的  因为传进来的是指向原数据集引用的一份拷贝，对该拷贝引用进行的链表操作，依然会对原数据进行操作
@@ -162,7 +298,23 @@ public class DataSet {
         this.distanceEx=oldDataSet.distanceEx;
         this.distanceDx=oldDataSet.distanceDx;
     }
+    */
 
+    //copy一个数据集，此数据集是重新建立的新数据集       深克隆
+    public void copyToNewDataSet(DataSet oldDataSet){
+        DataSet temp =new DataSet();    //浅克隆是有必要的  因为传进来的是指向原数据集引用的一份拷贝，对该拷贝引用进行的链表操作，依然会对原数据进行操作
+       /* for ( temp.copyDataSet(oldDataSet);!temp.isNullHead();temp.head=temp.head.next){
+            Node tempNode = new Node(new CellData(temp.head.data.getData().clone()),temp.head.cellDataId,null);
+            this.addNodeInHead(tempNode);
+        }*/
+        //this.dataSetHashMap=(HashMap<Integer, CellData>) oldDataSet.dataSetHashMap.clone();
+        for (int id:oldDataSet.dataSetHashMap.keySet()){
+            this.dataSetHashMap.put(id,oldDataSet.dataSetHashMap.get(id).clone());
+        }
+        this.distanceEx=oldDataSet.distanceEx;
+        this.distanceDx=oldDataSet.distanceDx;
+    }
+/*
     //迭代克隆节点链表数据
     @Nullable
     private Node cloneNodeList(Node headNode){
@@ -173,11 +325,14 @@ public class DataSet {
                 return new Node(headNode.data.clone(),headNode.cellDataId,null);
         }
     }
+*/
+
 
     /**
      * 深克隆本数据集
      * @return 返回本数据集的深克隆
      */
+    /*
     public DataSet cloneDataSet(){
         DataSet tempDataSet = new DataSet();
         tempDataSet.head = this.cloneNodeList(this.head);
@@ -186,7 +341,23 @@ public class DataSet {
         tempDataSet.distanceEx=this.distanceEx;
         return tempDataSet;
     }
+*/
+    /**
+     * 深克隆本数据集
+     * @return 返回本数据集的深克隆
+     */
+    public DataSet cloneDataSet(){
+        DataSet tempDataSet = new DataSet();
+        //tempDataSet.dataSetHashMap = (HashMap<Integer, CellData>) this.dataSetHashMap.clone();
+        for (int id:this.dataSetHashMap.keySet()){
+            tempDataSet.dataSetHashMap.put(id,this.dataSetHashMap.get(id).clone());
+        }
+        tempDataSet.distanceDx=this.distanceDx;
+        tempDataSet.distanceEx=this.distanceEx;
+        return tempDataSet;
+    }
 
+/*
     //返回链表中首节点的数据
     public CellData readHeadNodeData(){
         return this.head.data;
@@ -207,8 +378,8 @@ public class DataSet {
     public boolean isNullHead(){
         return this.head==null;
     }
-
-
+*/
+/*
     //从数据集中根据ID找到数据
     public float[] findData(int cellDataId){
         //copy一个数组
@@ -220,12 +391,19 @@ public class DataSet {
         }
         return null;
     }
+*/
+    //从数据集中根据ID找到数据
+    public float[] findData(int cellDataId){
+        return this.dataSetHashMap.get(cellDataId).getData().clone(); //返回一个克隆
+    }
+
 
     /**
      * 得到数据集对象间的平均距离以及标准差
      * 该函数将在按比例抽取数据集时调用
      * 已测试
      */
+    /*
     public void getDataSetExDx(){   //暂时变为公有方法
         float ex=0;
         float dx=0;
@@ -253,6 +431,35 @@ public class DataSet {
         this.distanceEx=ex;
         this.distanceDx=dx;
     }
+    */
+
+    public void getDataSetExDx(){   //暂时变为公有方法
+        float ex=0;
+        float dx=0;
+        ArrayList<CellData> dataSet = new ArrayList<CellData>(); //数据集
+        ArrayList<Float> distanceSet = new ArrayList<Float>();//两两数据间的距离
+        for (CellData cellData:this.dataSetHashMap.values()){
+            dataSet.add(cellData);
+        }
+        ////////////////求EX
+        for (int i=0;i<dataSet.size();i++){
+            for (int j=i+1;j<dataSet.size();j++){
+                float distance=dataSet.get(i).pointToPoint(dataSet.get(j));//需要添加点到点的距离
+                ex+=distance;
+                distanceSet.add(distance);
+            }
+        }
+        ex/=distanceSet.size();
+        ////////////////求DX
+        for (int i=0;i<distanceSet.size();i++){
+            dx+=Math.pow((distanceSet.get(i)-ex),2);
+        }
+        dx=(float) Math.sqrt(dx/(distanceSet.size()-1));
+
+        this.distanceEx=ex;
+        this.distanceDx=dx;
+    }
+
 
     /**
      * 根据beta值得到半径R
@@ -272,8 +479,9 @@ public class DataSet {
      * @param ratio  采样比例
      * @return  新数据集   (新数据集的链表顺序与原始数据集的链表顺序相反)
      * 注意：调用该函数前，原始数据集已经进行了标准化。
-     * 未测试
+     * 已测试
      */
+    /*
     public DataSet SystematicSampling(float ratio){
         int len = (int) (1/ratio);
         DataSet newDataSet = new DataSet();
@@ -286,6 +494,22 @@ public class DataSet {
         newDataSet.getDataSetExDx();
         return newDataSet;
     }
+    */
+    public DataSet SystematicSampling(float ratio){
+        int len = (int) (1/ratio);
+        DataSet newDataSet = new DataSet();
+        for (int id:this.dataSetHashMap.keySet()){
+            if (id%len==0){
+                newDataSet.addNodeInHead(id,this.dataSetHashMap.get(id).clone());
+            }
+        }
+        newDataSet.getDataSetExDx();
+        return newDataSet;
+    }
 
+
+    public HashMap<Integer,CellData> getDataSetHashMap(){
+        return this.dataSetHashMap;
+    }
 
 }
