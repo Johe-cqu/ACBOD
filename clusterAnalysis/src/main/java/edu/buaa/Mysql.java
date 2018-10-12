@@ -40,7 +40,7 @@ public class Mysql {
         try {
             Statement statement = conn.createStatement();
             //要执行的SQL语句
-            String sql = "select * from " + tableName;
+            String sql = "select * from " + tableName+" order by id desc limit 200";
 
             //3.ResultSet类，用来存放获取的结果集！！
             ResultSet rs = statement.executeQuery(sql);
@@ -49,6 +49,10 @@ public class Mysql {
             String Data2 = null;
             String Data3 = null;
             String Data4 = null;
+//            dataSet.addNodeInHead(++id,new CellData(new float[]{10,10,10,10}));
+//            dataSet.addNodeInHead(++id,new CellData(new float[]{12,10,11,13}));
+//            dataSet.addNodeInHead(++id,new CellData(new float[]{13,14,11,15}));
+//            dataSet.addNodeInHead(++id,new CellData(new float[]{13,11,13,14}));
 //            dataSet.addNodeInHead(++id,new CellData(new float[]{10,10,10,10}));
 //            dataSet.addNodeInHead(++id,new CellData(new float[]{12,10,11,13}));
 //            dataSet.addNodeInHead(++id,new CellData(new float[]{13,14,11,15}));
@@ -70,11 +74,11 @@ public class Mysql {
             dataSet.addNodeInHead(++id,new CellData(new float[]{20,21,21,20}));
             dataSet.addNodeInHead(++id,new CellData(new float[]{22,21,23,20}));
             dataSet.addNodeInHead(++id,new CellData(new float[]{22,22,22,22}));
-            dataSet.addNodeInHead(++id,new CellData(new float[]{23,23,23,24}));
-            dataSet.addNodeInHead(++id,new CellData(new float[]{22,22,23,24}));
-            dataSet.addNodeInHead(++id,new CellData(new float[]{20,19,18,17}));
-            dataSet.addNodeInHead(++id,new CellData(new float[]{20,19,18,17}));
-            dataSet.addNodeInHead(++id,new CellData(new float[]{20,19,18,17}));
+            dataSet.addNodeInHead(++id,new CellData(new float[]{23,23,23,23}));
+//            dataSet.addNodeInHead(++id,new CellData(new float[]{22,22,23,24}));
+//            dataSet.addNodeInHead(++id,new CellData(new float[]{20,19,18,17}));
+//            dataSet.addNodeInHead(++id,new CellData(new float[]{20,19,18,17}));
+//            dataSet.addNodeInHead(++id,new CellData(new float[]{20,19,18,17}));
             rs.close();
             //conn.close();
         }catch (SQLException e){
