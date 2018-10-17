@@ -38,6 +38,7 @@ public class MysqlTest {
         */
        // DataProcessing.getAbnormalDataInDataSet(dataSet,(float)0.05,(float)0.05);
         DataProcessing.getAbnormalDataInDataSetForward(dataSet,(float)0.05,(float)0.05);
+        //System.out.println(dataSet.toString());
         System.out.println("");
     }
 

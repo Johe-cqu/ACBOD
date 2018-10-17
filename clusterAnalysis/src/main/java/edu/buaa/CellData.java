@@ -1,14 +1,15 @@
 package edu.buaa;
 
 public class CellData implements Cloneable {
-    private final int len=4;
+    private int len;//数组的数据长度
     private float[] Data;
     private String time;
 
 
     public CellData(float[] Data){
-        this.Data= new float[len];
+        this.Data= new float[2];
         this.Data=Data;
+        this.len=this.Data.length;
     }
     public CellData(float[] Data,String time){
         this(Data);
