@@ -7,7 +7,6 @@ public class CellData implements Cloneable {
 
 
     public CellData(float[] Data){
-        this.Data= new float[2];
         this.Data=Data;
         this.len=this.Data.length;
     }

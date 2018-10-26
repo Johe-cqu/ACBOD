@@ -16,7 +16,7 @@ public class Mysql {
         String password="123456";
         try{
             //动态加载类
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("com.mysql.jdbc.Driver");//反射加载
             con=DriverManager.getConnection(url,user,password);
             if (!con.isClosed()) {
                 System.out.println("Succeeded connecting to the Database!");
